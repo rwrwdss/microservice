@@ -1,0 +1,13 @@
+version: "3.9"
+
+services:
+
+  gateway:
+
+  user-service:
+
+  cache-service:
+
+  postgres:
+
+  redis:
