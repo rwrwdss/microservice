@@ -1,13 +1,18 @@
-version: "3.9"
-
 services:
-
-  gateway:
-
-  user-service:
-
-  cache-service:
-
   postgres:
+    image: postgres:16
+    container_name: postgres-db
 
-  redis:
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: mydb
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - user-service-postgres-data:/var/lib/postgresql/data
+
+volumes:
+  user-service-postgres-data:
