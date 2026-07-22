@@ -17,6 +17,35 @@ func (keywordRow) TableName() string {
 	return "keywords"
 }
 
+func Migrate(ctx context.Context, db *gorm.DB) error {
+	return db.WithContext(ctx).AutoMigrate(&keywordRow{})
+}
+
+func Seed(ctx context.Context, db *gorm.DB) error {
+	var count int64
+	if err := db.WithContext(ctx).Model(&keywordRow{}).Count(&count).Error; err != nil {
+		return fmt.Errorf("failed to count keywords: %w", err)
+	}
+
+	if count > 0 {
+		return nil
+	}
+
+	seedRows := []keywordRow{
+		{Text: "iphone", Requests: 500},
+		{Text: "ipad", Requests: 400},
+		{Text: "ipod", Requests: 300},
+		{Text: "imac", Requests: 200},
+		{Text: "intel", Requests: 100},
+	}
+
+	if err := db.WithContext(ctx).Create(&seedRows).Error; err != nil {
+		return fmt.Errorf("failed to seed keywords: %w", err)
+	}
+
+	return nil
+}
+
 type postgresKeywordRepository struct {
 	db *gorm.DB
 }

@@ -15,6 +15,8 @@ type Config struct {
 	DBPassword string
 	DBName     string
 	DBSSLMode  string
+
+	DictionaryPath string
 }
 
 func Load() (*Config, error) {
@@ -31,6 +33,8 @@ func Load() (*Config, error) {
 		DBPassword: getEnv("DB_PASSWORD", "password"),
 		DBName:     getEnv("DB_NAME", "mydb"),
 		DBSSLMode:  getEnv("DB_SSLMODE", "disable"),
+
+		DictionaryPath: getEnv("DICTIONARY_PATH", "./dictionary.txt"),
 	}, nil
 }
 

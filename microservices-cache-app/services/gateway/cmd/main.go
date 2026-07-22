@@ -9,6 +9,7 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/rwrwdss/microservices-cache-app/services/gateway/internal/builder"
 	"github.com/rwrwdss/microservices-cache-app/services/gateway/internal/config"
 	"github.com/rwrwdss/microservices-cache-app/services/gateway/internal/database"
 	"github.com/rwrwdss/microservices-cache-app/services/gateway/internal/handler"
@@ -32,8 +33,19 @@ func main() {
 	}
 	log.Println("INFO Connected to PostgreSQL")
 
+	log.Println("INFO Running migrations...")
+	if err := repository.Migrate(context.Background(), db); err != nil {
+		log.Fatalf("failed to run migrations: %v", err)
+	}
+
+	log.Println("INFO Seeding dictionary...")
+	if err := repository.Seed(context.Background(), db); err != nil {
+		log.Fatalf("failed to seed dictionary: %v", err)
+	}
+
 	keywordRepository := repository.NewPostgresKeywordRepository(db)
-	dictionaryService := service.NewDictionaryService(keywordRepository)
+	dictionaryBuilder := builder.NewTextDictionaryBuilder(cfg.DictionaryPath)
+	dictionaryService := service.NewDictionaryService(keywordRepository, dictionaryBuilder)
 
 	log.Println("INFO Loading dictionary...")
 	if err := dictionaryService.LoadDictionary(context.Background()); err != nil {
