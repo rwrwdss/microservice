@@ -19,6 +19,8 @@ public:
 
     std::size_t Size() const;
 
+    std::vector<std::string> SearchByPrefix(std::string_view prefix, std::size_t limit) const;
+
     static userver::yaml_config::Schema GetStaticConfigSchema();
 
 private:

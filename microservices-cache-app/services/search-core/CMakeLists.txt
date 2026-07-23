@@ -8,6 +8,8 @@ add_library(${PROJECT_NAME}_objs OBJECT
     src/dictionary_component.cpp
     src/dictionary_handler.hpp
     src/dictionary_handler.cpp
+    src/search_handler.hpp
+    src/search_handler.cpp
 )
 target_link_libraries(${PROJECT_NAME}_objs PUBLIC userver::core)
 

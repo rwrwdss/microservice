@@ -42,5 +42,10 @@ components_manager:
             method: GET
             task_processor: main-task-processor
 
+        handler-search:
+            path: /search
+            method: GET
+            task_processor: main-task-processor
+
         dictionary-component:
             file-path: $dictionary-path

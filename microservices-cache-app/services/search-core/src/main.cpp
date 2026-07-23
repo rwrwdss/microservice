@@ -6,6 +6,7 @@
 
 #include "dictionary_component.hpp"
 #include "dictionary_handler.hpp"
+#include "search_handler.hpp"
 
 int main(int argc, char* argv[]) {
     auto component_list = userver::components::MinimalServerComponentList()
@@ -15,6 +16,7 @@ int main(int argc, char* argv[]) {
 
     search_core::AppendDictionaryComponent(component_list);
     search_core::AppendDictionaryCountHandler(component_list);
+    search_core::AppendSearchHandler(component_list);
 
     return userver::utils::DaemonMain(argc, argv, component_list);
 }

@@ -44,6 +44,22 @@ DictionaryComponent::DictionaryComponent(const userver::components::ComponentCon
 
 std::size_t DictionaryComponent::Size() const { return keywords_.size(); }
 
+std::vector<std::string> DictionaryComponent::SearchByPrefix(std::string_view prefix, std::size_t limit) const {
+    std::vector<std::string> results;
+
+    for (const auto& keyword : keywords_) {
+        if (results.size() >= limit) {
+            break;
+        }
+
+        if (keyword.rfind(prefix, 0) == 0) {
+            results.push_back(keyword);
+        }
+    }
+
+    return results;
+}
+
 userver::yaml_config::Schema DictionaryComponent::GetStaticConfigSchema() {
     return userver::yaml_config::MergeSchemas<userver::components::ComponentBase>(R"(
 type: object
