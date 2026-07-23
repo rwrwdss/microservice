@@ -14,5 +14,19 @@ services:
     volumes:
       - user-service-postgres-data:/var/lib/postgresql/data
 
+  search-core:
+    build:
+      context: ../services/search-core
+    container_name: search-core
+
+    ports:
+      - "8081:8081"
+
+    volumes:
+      # Go gateway writes dictionary.txt into its own working directory on the host;
+      # mounting that same directory here is how search-core gets access to it
+      # without the two services needing to talk to each other directly (yet).
+      - ../services/gateway:/data
+
 volumes:
   user-service-postgres-data:
