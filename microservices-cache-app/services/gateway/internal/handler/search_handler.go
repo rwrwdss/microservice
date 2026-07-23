@@ -18,7 +18,7 @@ func NewSearchHandler(service service.SearchService) *SearchHandler {
 func (h *SearchHandler) Search(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query().Get("q")
 
-	results, err := h.service.Search(query)
+	results, err := h.service.Search(r.Context(), query)
 	if err != nil {
 		http.Error(w, "internal server error", http.StatusInternalServerError)
 		return

@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package keywords.api;
+
+option go_package = "github.com/rwrwdss/microservices-cache-app/services/gateway/internal/searchclient/keywordspb;keywordspb";
+
+service SearchService {
+    rpc Search(SearchRequest) returns (SearchResponse) {}
+}
+
+message SearchRequest {
+    string query = 1;
+    int32 limit = 2;
+}
+
+message SearchResponse {
+    repeated string results = 1;
+}

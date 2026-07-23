@@ -15,6 +15,7 @@ import (
 	"github.com/rwrwdss/microservices-cache-app/services/gateway/internal/handler"
 	"github.com/rwrwdss/microservices-cache-app/services/gateway/internal/repository"
 	"github.com/rwrwdss/microservices-cache-app/services/gateway/internal/router"
+	"github.com/rwrwdss/microservices-cache-app/services/gateway/internal/searchclient"
 	"github.com/rwrwdss/microservices-cache-app/services/gateway/internal/service"
 )
 
@@ -52,7 +53,17 @@ func main() {
 		log.Fatalf("failed to load dictionary: %v", err)
 	}
 
-	searchService := service.NewSearchService()
+	log.Println("INFO Connecting to search-core...")
+	searchClient, err := searchclient.NewGRPCSearchClient(cfg.SearchCoreGRPCAddr)
+	if err != nil {
+		log.Fatalf("failed to create search-core client: %v", err)
+	}
+	if _, err := searchClient.Search(context.Background(), "", 1); err != nil {
+		log.Fatalf("failed to reach search-core: %v", err)
+	}
+	log.Println("INFO Connected to search-core")
+
+	searchService := service.NewSearchService(searchClient)
 	searchHandler := handler.NewSearchHandler(searchService)
 	r := router.New(searchHandler)
 

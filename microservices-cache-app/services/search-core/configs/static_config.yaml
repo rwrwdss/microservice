@@ -47,5 +47,12 @@ components_manager:
             method: GET
             task_processor: main-task-processor
 
+        grpc-server:
+            port: $grpc-server-port
+            completion-queue-count: 1
+
+        handler-search-grpc:
+            task-processor: main-task-processor
+
         dictionary-component:
             file-path: $dictionary-path

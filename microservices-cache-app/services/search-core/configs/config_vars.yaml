@@ -5,4 +5,5 @@ logger-level: info
 is_testing: false
 
 server-port: 8081
+grpc-server-port: 8082
 dictionary-path: /data/dictionary.txt

@@ -16,11 +16,13 @@ services:
 
   search-core:
     build:
-      context: ../services/search-core
+      context: ..
+      dockerfile: services/search-core/Dockerfile
     container_name: search-core
 
     ports:
       - "8081:8081"
+      - "8082:8082"
 
     volumes:
       # Go gateway writes dictionary.txt into its own working directory on the host;

@@ -17,6 +17,8 @@ type Config struct {
 	DBSSLMode  string
 
 	DictionaryPath string
+
+	SearchCoreGRPCAddr string
 }
 
 func Load() (*Config, error) {
@@ -35,6 +37,8 @@ func Load() (*Config, error) {
 		DBSSLMode:  getEnv("DB_SSLMODE", "disable"),
 
 		DictionaryPath: getEnv("DICTIONARY_PATH", "./dictionary.txt"),
+
+		SearchCoreGRPCAddr: getEnv("SEARCH_CORE_GRPC_ADDR", "localhost:8082"),
 	}, nil
 }
 

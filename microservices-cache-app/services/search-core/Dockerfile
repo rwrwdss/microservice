@@ -1,13 +1,14 @@
 FROM ghcr.io/userver-framework/ubuntu-22.04-userver:latest
 
-WORKDIR /app
+WORKDIR /app/services/search-core
 
-COPY CMakeLists.txt ./
-COPY src ./src
+COPY proto /app/proto
+COPY services/search-core/CMakeLists.txt ./
+COPY services/search-core/src ./src
 
 RUN cmake -B build -DCMAKE_BUILD_TYPE=Release \
     && cmake --build build -j "$(nproc)" --target search-core
 
-COPY configs ./configs
+COPY services/search-core/configs ./configs
 
-CMD ["/app/build/search-core", "--config", "/app/configs/static_config.yaml", "--config_vars", "/app/configs/config_vars.yaml"]
+CMD ["/app/services/search-core/build/search-core", "--config", "/app/services/search-core/configs/static_config.yaml", "--config_vars", "/app/services/search-core/configs/config_vars.yaml"]
